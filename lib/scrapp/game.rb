@@ -1,5 +1,5 @@
 module Scrapp
-  class Scrabble
+  class Game
     VALID_CHARS = [*'A'..'Z', '!', '*'].freeze
 
     LETTER_VALUES = {
@@ -15,7 +15,7 @@ module Scrapp
     attr_accessor :word
 
     def initialize(word)
-      if valid?(word)
+      if validate_input?(word)
         $stdout.write "\e[14;23H"
         puts "\e[1m\e[32m#{word}\e[0m"
         $stdout.write "\e[15;23H"
@@ -24,19 +24,63 @@ module Scrapp
       end
     end
 
-    def valid?(word)
-      if word.chars.all? { |char| VALID_CHARS.include? char.upcase }
-        word.scan(/(\W{3,})/).length.zero? ? true : false
-      else
+    def validate_input?(word)
+      if !valid_chars?(word)
+        raise_error(1)
         false
+      elsif !valid_char_count?(word)
+        raise_error(2)
+        false
+      elsif !valid_star_pos?(word)
+        raise_error(3)
+        false
+      elsif !valid_bang_pos?(word)
+        raise_error(4)
+        false
+      else
+        true
+      end
+    end
+
+    def valid_chars?(word)
+      word.chars.all? { |char| VALID_CHARS.include? char.upcase }
+    end
+
+    def valid_char_count?(word)
+      word.scan(/\W{3,}/).length.zero?
+    end
+
+    def valid_star_pos?(word)
+      result = word.scan(/\A\W+/)
+      if result.length.zero?
+        true
+      else
+        result.join.scan(/[*]/).length.zero? ? true : false
+      end
+    end
+
+    def valid_bang_pos?(word)
+      result = word.scan(/\b\W+/)
+      if result.length.zero?
+        true
+      else
+        result.join.scan(/[!]/).length.zero? ? true : false
       end
     end
 
     def raise_error(error_code)
+      if error_code == 1
+        puts "invalid characters entered"
+      elsif error_code == 2
+        puts "too many sequential special characters entered"
+      elsif error_code == 3
+        puts "\'*\'s must not be placed in front of a word"
+      elsif error_code == 4
+        puts "\'!\'s can only be placed in front of a word"
+      end
     end
 
     def score_letters
-
     end
 
     def score_word

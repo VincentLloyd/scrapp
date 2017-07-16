@@ -26,14 +26,31 @@ module Scrapp
     ["\n\e[33mTRIPLE LETTER\e[0m score => <letter>\e[1m**\e[0m"],
     ["\e[1mva**st\e[0m = \e[1mvast\e[0m" \
      " word score inc. triple letter score \e[1ma\e[0m"],
-    ["\n\e[1m\e[31mWORD BONUS\e[0m"],
-    ["\n\e[31mDOUBLE WORD\e[0m score => \e[1m!\e[0m<word>"],
+    ["\n\e[1m\e[34mWORD BONUS\e[0m"],
+    ["\n\e[34mDOUBLE WORD\e[0m score => \e[1m!\e[0m<word>"],
     ["\e[1m!hello\e[0m = \e[1mhello\e[0m with double word score"],
-    ["\n\e[31mTRIPLE WORD\e[0m score => \e[1m!!\e[0m<word>"],
+    ["\n\e[34mTRIPLE WORD\e[0m score => \e[1m!!\e[0m<word>"],
     ["\e[1m!!fancy\e[0m = \e[1mfancy\e[0m with triple word score\n "]
   ].freeze
 
-  POST_SCORE = [
-    ["\nScore another word? (Y/n)\n "]
-  ]
+  SCORE_AGAIN = [
+    ["\n\e[1mScore another word?\e[0m"],
+    ["\n\e[1mY\e[0mes / \e[1mN\e[0mo:  \n "]  
+  ].freeze
+
+  TRIVIA_TITLE = [
+    "\e[1mSCRABBLE TRIVIA\e[0m\n\n",
+    "\e[1mFUN FACT\e[0m\n\n",
+    "\e[1mCRAZY BUT TRUE\e[0m\n\n",
+    "\e[1mDID YOU KNOW?\e[0m\n\n",
+    "\e[1mOMG!\e[0m\n\n",
+    "\e[1mRANDOM FACT\e[0m\n\n"
+  ].sample
+
+  TRIVIA = [
+    [["\n#{TRIVIA_TITLE}Scrabble was invented in 1938 by " \
+      "American architect, Alfred Butts.\n "]],
+    [["\n#{TRIVIA_TITLE}Scrabble's original name was " \
+      "Criss-Crosswords.\n "]]
+  ].freeze
 end

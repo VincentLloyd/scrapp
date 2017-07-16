@@ -6,5 +6,3 @@ require 'scrapp'
 session = Scrapp::CLI.new
 session.new_session
 session.score_again?
-
-$stdout.write "\e[25l"
