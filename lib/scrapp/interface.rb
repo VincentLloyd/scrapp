@@ -4,7 +4,7 @@ module Scrapp
 
   class CLI
     def render_panel(content, flag)
-      set_table_defaults
+      Terminal::Table::Style.defaults = { width: 70 }
       panel = Terminal::Table.new do |row|
         row.rows = content
         apply_border(row, flag)
@@ -13,14 +13,10 @@ module Scrapp
       puts panel
     end
 
-    def set_table_defaults
-      Terminal::Table::Style.defaults = { width: 70 }
-    end
-
     def apply_border(row, flag)
       if ['intro', 'prompt'].include?(flag) 
         row.style = { border_top: false, border_bottom: false }
-      elsif flag == 'post_score'
+      elsif flag == 'status'
         row.style = { border_top: false }
       end
     end
@@ -39,7 +35,7 @@ module Scrapp
 
     def score_again?
       # prompt = TTY::Prompt.new
-      render_panel(POST_SCORE, 'post_score')
+      render_panel(POST_SCORE, 'status')
     end
 
     def exit_session

@@ -2,7 +2,6 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
 require 'scrapp'
-# extend Scrapp::CLI
 
 session = Scrapp::CLI.new
 session.new_session
