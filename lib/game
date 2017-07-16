@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+require_relative 'lib/scrabble'
+require_relative 'lib/interface'
+
+module Swords
+  class Game
+    extend Interface
+
+    new_score
+    # system 'clear'
+    # build_text_panel(HEADER)
+    # build_score_panel(GAME)
+    # build_text_panel(BONUS_GUIDE)
+    # word = get_word
+
+    $stdout.write "\e[25l"            # move cursor to overwrite
+
+    if valid?(word) == true
+      puts 'VALID!'
+    else
+      puts 'INVALID!'
+    end
+    $stdout.write "\e[40;70H\n"       # move cursor to overwrite
+  end
+end
