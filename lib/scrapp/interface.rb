@@ -2,38 +2,48 @@ module Scrapp
 
   require 'terminal-table'
 
-  module Interface
-    def self.render_text_panel(content)
+  class CLI
+    def render_panel(content, flag)
       set_table_defaults
-      text_panel = Terminal::Table.new { |row| row.rows = content }
-      text_panel.align_column(0, :center)
-      puts text_panel
-    end
-
-    def self.render_score_panel(content)
-      set_table_defaults
-      score_panel = Terminal::Table.new do |row|
+      panel = Terminal::Table.new do |row|
         row.rows = content
-        row.style = { border_top: false, border_bottom: false }
+        apply_border(row, flag)
       end
-      puts score_panel
+      flag != 'prompt' ? panel.align_column(0, :center) : ''
+      puts panel
     end
 
-    def self.new_session
-      system 'clear'
-      render_text_panel(HEADER)
-      render_score_panel(SCORE_WORD)
-      render_text_panel(BONUS_GUIDE)
-      $stdout.write "\e[19;23H"
-      game = Scrapp::Scrabble.new(gets.chomp)
-      puts game.word
-      $stdout.write "\e[40;70H\n"
-    end
-
-    private
-
-    def self.set_table_defaults
+    def set_table_defaults
       Terminal::Table::Style.defaults = { width: 70 }
+    end
+
+    def apply_border(row, flag)
+      if ['intro', 'prompt'].include?(flag) 
+        row.style = { border_top: false, border_bottom: false }
+      elsif flag == 'post_score'
+        row.style = { border_top: false }
+      end
+    end
+
+    def new_session
+      system 'clear'
+      render_panel(HEADER, 'header')
+      render_panel(INTRO, 'intro')
+      $stdout.write "\e[13;H"
+      render_panel(PROMPT, 'prompt')
+      render_panel(BONUS_GUIDE, 'bonus_guide')
+      $stdout.write "\e[14;23H"
+      Scrapp::Scrabble.new(gets.chomp)
+      exit_session
+    end
+
+    def score_again?
+      # prompt = TTY::Prompt.new
+      render_panel(POST_SCORE, 'post_score')
+    end
+
+    def exit_session
+      $stdout.write "\e[35;70H\n"
     end
   end
 end

@@ -5,14 +5,17 @@ module Scrapp
   TITLE = Artii::Base.new font: 'slant'
 
   HEADER = [
-    [TITLE.asciify('SCRABBLE')],
-    [TITLE.asciify('WORD SCORE')],
+    [TITLE.asciify('SCRAPP')],
+    ["\e[1mA SCRABBLE WORD SCORE APP\e[0m\n "]
+  ].freeze
+
+  INTRO = [
     ["\nEnter a word at the prompt to calculate its Scrabble score\n "]
   ].freeze
 
-  SCORE_WORD = [
-    ["\n" + ' ' * 9 + 'Your word:'],
-    [' ' * 8 + "Word score:\n "]
+  PROMPT = [
+    ["\n" + ' ' * 9 + "\e[1mYour word:\e[0m"],
+    [' ' * 8 + "\e[1mWord score:\e[0m\n "]
   ].freeze
 
   BONUS_GUIDE = [
@@ -30,4 +33,7 @@ module Scrapp
     ["\e[1m!!fancy\e[0m = \e[1mfancy\e[0m with triple word score\n "]
   ].freeze
 
+  POST_SCORE = [
+    ["\nScore another word? (Y/n)\n "]
+  ]
 end

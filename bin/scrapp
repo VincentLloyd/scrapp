@@ -2,9 +2,10 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
 require 'scrapp'
-extend Scrapp::Interface
+# extend Scrapp::CLI
 
-Scrapp::Interface.new_session
-puts 'something else can happen'
+session = Scrapp::CLI.new
+session.new_session
+session.score_again?
 
 $stdout.write "\e[25l"

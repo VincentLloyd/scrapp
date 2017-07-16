@@ -16,8 +16,10 @@ module Scrapp
 
     def initialize(word)
       if valid?(word)
-        $stdout.write "\e[20;23H"
-        puts "\e[35mVALID!\e[0m"
+        $stdout.write "\e[14;23H"
+        puts "\e[1m\e[32m#{word}\e[0m"
+        $stdout.write "\e[15;23H"
+        puts "\e[1m\e[32mVALID!\e[0m"
         @word = word 
       end
     end
