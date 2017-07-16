@@ -3,8 +3,15 @@ module Scrapp
   require 'terminal-table'
 
   class CLI
+
+    attr_accessor :continue
+
+    def initialize
+      @continue = true
+    end
+
     def render_panel(content, flag)
-      Terminal::Table::Style.defaults = { width: 70 }
+      Terminal::Table::Style.defaults = { width: 75 }
       panel = Terminal::Table.new do |row|
         row.rows = content
         apply_border(row, flag)
@@ -27,15 +34,17 @@ module Scrapp
       render_panel(INTRO, 'intro')
       $stdout.write "\e[13;H"
       render_panel(PROMPT, 'prompt')
-      render_panel(BONUS_GUIDE, 'bonus_guide')
+      render_panel(BONUS_GUIDE, 'guide')
+      render_panel(TRIVIA.sample, 'status')
       $stdout.write "\e[14;23H"
-      Scrapp::Scrabble.new(gets.chomp)
-      exit_session
+      Scrapp::Game.new(gets.chomp)
     end
 
     def score_again?
-      # prompt = TTY::Prompt.new
-      render_panel(POST_SCORE, 'status')
+      $stdout.write "\e[36;H"
+      render_panel(SCORE_AGAIN, 'status')
+      $stdout.write "\e[39;43H"
+      @continue = gets.chomp
     end
 
     def exit_session

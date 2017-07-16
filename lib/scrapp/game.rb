@@ -1,5 +1,5 @@
 module Scrapp
-  class Scrabble
+  class Game
     VALID_CHARS = [*'A'..'Z', '!', '*'].freeze
 
     LETTER_VALUES = {
