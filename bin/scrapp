@@ -6,11 +6,18 @@ require 'scrapp'
 session = Scrapp::CLI.new
 session.new_session
 
-game = Scrapp::Game.new(gets.chomp)
+game = Scrapp::Game.new(session.get_word)
 
-if game.error_code == 0
-  session.print_score(game.word)
-  session.score_again?
-elsif game.error_code > 0
-  session.handle_error(game.error_code) 
+while session.run
+  if game.error_code == 0
+    session.print_score(game.word, game.score)
+    session.score_again?
+  elsif game.error_code > 0
+    session.handle_error(game.word, game.error_code) 
+    session.score_again?
+  end
+  if session.run
+    game.word = session.get_word
+    game.error_code = game.validate_input(game.word)
+  end
 end
