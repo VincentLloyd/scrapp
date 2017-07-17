@@ -41,8 +41,11 @@ module Scrapp
       " front of <word>#{ERROR_FOOTER}"]]
   ].freeze
 
+  BYE = Artii::Base.new font: 'smslant'
+
   FAREWELL = [
-    ["\n\n\e[1mGOODBYE!\e[0m\n\n "]
+    [BYE.asciify('Goodbye')]
+  ]
 
   INTRO = [
     ["\nEnter a word at the prompt to calculate its Scrabble score\n "]
@@ -55,7 +58,7 @@ module Scrapp
 
   SCORE_AGAIN = [
     ["\n\e[1mScore another word?\e[0m"],
-    ["\n\e[1mY\e[0mes / \e[1mN\e[0mo\n "]  
+    ["\n\e[1m\e[32mY\e[0mes | \e[1m\e[31mN\e[0mo\n "]  
   ].freeze
 
   TRIVIA_TITLE = [
