@@ -79,7 +79,6 @@ class Game
 
   def score_word(word)
     word_bonus = word.scan(/\A\W+/).join.length + 1
-    # word_bonus = multipliers.zero? ? 1 : multipliers + 1
     (score_letters(word) + score_bonus_letters(word)) * word_bonus 
   end
 end
