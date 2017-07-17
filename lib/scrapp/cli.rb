@@ -49,7 +49,7 @@ module Scrapp
       $stdout.write "\e[14;33H"
       puts "\e[1m\e[32m#{word}\e[0m"
       $stdout.write "\e[15;33H"
-      puts "\e[1m\e[32m#{score}!\e[0m"
+      puts "\e[1m\e[32m#{score}\e[0m"
     end
 
     def score_again?
