@@ -9,15 +9,6 @@ module Scrapp
     ["\e[1mA SCRABBLE WORD SCORE APP\e[0m\n "]
   ].freeze
 
-  INTRO = [
-    ["\nEnter a word at the prompt to calculate its Scrabble score\n "]
-  ].freeze
-
-  PROMPT = [
-    ["\n" + ' ' * 9 + "\e[1mYour word:\e[0m"],
-    [' ' * 8 + "\e[1mWord score:\e[0m\n "]
-  ].freeze
-
   BONUS_GUIDE = [
     ["\n\e[1m\e[33mLETTER BONUS\e[0m"],
     ["\n\e[33mDOUBLE LETTER\e[0m score => <letter>\e[1m*\e[0m"],
@@ -33,6 +24,22 @@ module Scrapp
     ["\e[1m!!fancy\e[0m = \e[1mfancy\e[0m with triple word score\n "]
   ].freeze
 
+  ERROR = [
+    [["Invalid characters entered"]],
+    [["Too many sequential special characters entered"]],
+    [["\'*\'s must not be placed in front of a word"]],
+    [["\'!\'s can only be placed in front of a word"]]
+  ].freeze
+
+  INTRO = [
+    ["\nEnter a word at the prompt to calculate its Scrabble score\n "]
+  ].freeze
+  
+  PROMPT = [
+    ["\n" + ' ' * 9 + "\e[1mYour word:\e[0m"],
+    [' ' * 8 + "\e[1mWord score:\e[0m\n "]
+  ].freeze
+
   SCORE_AGAIN = [
     ["\n\e[1mScore another word?\e[0m"],
     ["\n\e[1mY\e[0mes / \e[1mN\e[0mo:  \n "]  
@@ -46,7 +53,7 @@ module Scrapp
     "\e[1mOMG!\e[0m\n\n",
     "\e[1mRANDOM FACT\e[0m\n\n"
   ].sample
-
+  
   TRIVIA = [
     [["\n#{TRIVIA_TITLE}Scrabble was invented in 1938 by " \
       "American architect, Alfred Butts.\n "]],

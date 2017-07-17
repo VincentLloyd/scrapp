@@ -37,7 +37,13 @@ module Scrapp
       render_panel(BONUS_GUIDE, 'guide')
       render_panel(TRIVIA.sample, 'status')
       $stdout.write "\e[14;23H"
-      Scrapp::Game.new(gets.chomp)
+    end
+
+    def print_score(word)
+      $stdout.write "\e[14;23H"
+      puts "\e[1m\e[32m#{word}\e[0m"
+      $stdout.write "\e[15;23H"
+      puts "\e[1m\e[32mVALID!\e[0m"
     end
 
     def score_again?
@@ -45,6 +51,12 @@ module Scrapp
       render_panel(SCORE_AGAIN, 'status')
       $stdout.write "\e[39;43H"
       @continue = gets.chomp
+    end
+
+    def handle_error(error_code)
+      $stdout.write "\e[36;H"
+      render_panel(ERROR[error_code - 1], 'status')
+      gets.chomp
     end
 
     def exit_session
