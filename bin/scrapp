@@ -5,4 +5,12 @@ require 'scrapp'
 
 session = Scrapp::CLI.new
 session.new_session
-session.score_again?
+
+game = Scrapp::Game.new(gets.chomp)
+
+if game.error_code == 0
+  session.print_score(game.word)
+  session.score_again?
+elsif game.error_code > 0
+  session.handle_error(game.error_code) 
+end

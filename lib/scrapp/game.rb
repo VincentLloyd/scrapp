@@ -13,32 +13,24 @@ module Scrapp
     }.freeze
 
     attr_accessor :word
+    attr_accessor :error_code
 
     def initialize(word)
-      if validate_input?(word)
-        $stdout.write "\e[14;23H"
-        puts "\e[1m\e[32m#{word}\e[0m"
-        $stdout.write "\e[15;23H"
-        puts "\e[1m\e[32mVALID!\e[0m"
-        @word = word 
-      end
+      @word = word
+      @error_code = validate_input(@word)
     end
 
-    def validate_input?(word)
+    def validate_input(word)
       if !valid_chars?(word)
-        raise_error(1)
-        false
+        @error_code = 1
       elsif !valid_char_count?(word)
-        raise_error(2)
-        false
+        @error_code = 2
       elsif !valid_star_pos?(word)
-        raise_error(3)
-        false
+        @error_code = 3
       elsif !valid_bang_pos?(word)
-        raise_error(4)
-        false
+        @error_code = 4
       else
-        true
+        @error_code = 0
       end
     end
 
@@ -65,18 +57,6 @@ module Scrapp
         true
       else
         result.join.scan(/[!]/).length.zero? ? true : false
-      end
-    end
-
-    def raise_error(error_code)
-      if error_code == 1
-        puts "invalid characters entered"
-      elsif error_code == 2
-        puts "too many sequential special characters entered"
-      elsif error_code == 3
-        puts "\'*\'s must not be placed in front of a word"
-      elsif error_code == 4
-        puts "\'!\'s can only be placed in front of a word"
       end
     end
 
