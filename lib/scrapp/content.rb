@@ -26,9 +26,9 @@ module Scrapp
     ["\e[1m!!fancy\e[0m = \e[1mfancy\e[0m with triple word score\n "]
   ].freeze
 
-  ERROR_TITLE = "\n\e[1m\e[31mERROR!\e[0m\n"
+  ERROR_TITLE = "\n\e[1m\e[31mERROR!\e[0m\n".freeze
 
-  ERROR_FOOTER = "\n<press any key to continue>\n "
+  ERROR_FOOTER = "\n<press any key to continue>\n ".freeze
 
   ERROR = [
     [["#{ERROR_TITLE}Only alphabetic and bonus multiplier characters" \
@@ -43,15 +43,14 @@ module Scrapp
 
   FAREWELL = [
     ["\n\n\e[1mGOODBYE!\e[0m\n\n "]
-  ].freeze
 
   INTRO = [
     ["\nEnter a word at the prompt to calculate its Scrabble score\n "]
   ].freeze
   
   PROMPT = [
-    ["\n" + ' ' * 9 + "\e[1mYour word:\e[0m"],
-    [' ' * 8 + "\e[1mWord score:\e[0m\n "]
+    ["\n" + ' ' * 19 + "\e[1mYour word:\e[0m"],
+    [' ' * 18 + "\e[1mWord score:\e[0m\n "]
   ].freeze
 
   SCORE_AGAIN = [
