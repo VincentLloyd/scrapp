@@ -12,12 +12,15 @@ module Scrapp
       'Y' => 4, 'Z' => 10
     }.freeze
 
-    attr_accessor :word
+    attr_reader :word
     attr_accessor :error_code
+    attr_accessor :score
 
     def initialize(word)
       @word = word
       @error_code = validate_input(@word)
+      @score = score_letters(@word) if @error_code == 0
+        
     end
 
     def validate_input(word)
@@ -60,10 +63,12 @@ module Scrapp
       end
     end
 
-    def score_letters
+    def score_letters(word)
+      word.gsub 
     end
 
-    def score_word
+    def score_word(word)
+      30
     end
   end
 end

@@ -24,11 +24,16 @@ module Scrapp
     ["\e[1m!!fancy\e[0m = \e[1mfancy\e[0m with triple word score\n "]
   ].freeze
 
+  ERROR_TITLE = "\e[1m\e[31mERROR!\e[0m\n".freeze
+
   ERROR = [
-    [["Invalid characters entered"]],
-    [["Too many sequential special characters entered"]],
-    [["\'*\'s must not be placed in front of a word"]],
-    [["\'!\'s can only be placed in front of a word"]]
+    [["\n#{ERROR_TITLE}Invalid characters entered\n" \
+     "<press any key to continue>\n "]],
+    [["\n#{ERROR_TITLE}No more than 2 bonus score charaters in a row\n" \
+     "<press any key to continue>\n "]],
+    [["\n#{ERROR_TITLE}\'*\'s must not be placed in front of a word\n" \
+     "<press any key to continue>\n "]],
+    [["\n#{ERROR_TITLE}\'!\'s can only be placed in front of a word\n "]]
   ].freeze
 
   INTRO = [
@@ -36,13 +41,13 @@ module Scrapp
   ].freeze
   
   PROMPT = [
-    ["\n" + ' ' * 9 + "\e[1mYour word:\e[0m"],
-    [' ' * 8 + "\e[1mWord score:\e[0m\n "]
+    ["\n" + ' ' * 19 + "\e[1mYour word:\e[0m"],
+    [' ' * 18 + "\e[1mWord score:\e[0m\n "]
   ].freeze
 
   SCORE_AGAIN = [
     ["\n\e[1mScore another word?\e[0m"],
-    ["\n\e[1mY\e[0mes / \e[1mN\e[0mo:  \n "]  
+    ["\n\e[1m\e[32mY\e[0mes / \e[1m\e[31mN\e[0mo:  \n "]  
   ].freeze
 
   TRIVIA_TITLE = [
