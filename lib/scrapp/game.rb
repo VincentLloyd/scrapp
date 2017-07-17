@@ -48,20 +48,20 @@ class Game
   end
 
   def valid_star_pos?(word)
-    result = word.scan(/\A\W+/)
-    if result.length.zero?
+    match = word.scan(/\A\W+/)
+    if match.length.zero?
       true
     else
-      result.join.scan(/[*]/).length.zero? ? true : false
+      match.join.scan(/[*]/).length.zero? ? true : false
     end
   end
 
   def valid_bang_pos?(word)
-    result = word.scan(/\b\W+/)
-    if result.length.zero?
+    match = word.scan(/\b\W+/)
+    if match.length.zero?
       true
     else
-      result.join.scan(/[!]/).length.zero? ? true : false
+      match.join.scan(/[!]/).length.zero? ? true : false
     end
   end
 
@@ -78,8 +78,8 @@ class Game
   end
 
   def score_word(word)
-    result = word.scan(/\A\W+/).join.length
-    word_bonus = result.zero? ? 1 : result + 1
+    word_bonus = word.scan(/\A\W+/).join.length + 1
+    # word_bonus = multipliers.zero? ? 1 : multipliers + 1
     (score_letters(word) + score_bonus_letters(word)) * word_bonus 
   end
 end
