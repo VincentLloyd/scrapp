@@ -18,7 +18,7 @@ class Game
   def initialize(word)
     @word = word
     @error_code = validate_input(@word)
-    @score = score_word(@word) if @error_code == 0
+    @score = score_word(@word) if @error_code.zero?
   end
 
   def validate_input(word)
@@ -48,21 +48,11 @@ class Game
   end
 
   def valid_star_pos?(word)
-    match = word.scan(/\A\W+/)
-    if match.length.zero?
-      true
-    else
-      match.join.scan(/[*]/).length.zero? ? true : false
-    end
+    word.scan(/\A\W+/).join.scan(/[*]/).length.zero? ? true : false
   end
 
   def valid_bang_pos?(word)
-    match = word.scan(/\b\W+/)
-    if match.length.zero?
-      true
-    else
-      match.join.scan(/[!]/).length.zero? ? true : false
-    end
+    word.scan(/\b\W+/).join.scan(/[!]/).length.zero? ? true : false
   end
 
   def score_letters(word)
@@ -72,9 +62,10 @@ class Game
   end
 
   def score_bonus_letters(word)
-    bonus_letters = word.scan(/(\w\b)(\W+)/).map { |letter|
-      letter[0].upcase * letter[1].length }.join
-    bonus_letters.length.zero? ? 0 : score_letters(bonus_letters)
+    bonus_letters = word.scan(/(\w\b)(\W+)/).map do |letter|
+      letter[0].upcase * letter[1].length
+    end
+    bonus_letters.join.length.zero? ? 0 : score_letters(bonus_letters)
   end
 
   def score_word(word)

@@ -4,19 +4,19 @@ $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'scrapp'
 
 session = Scrapp::CLI.new
-session.set_screen
+session.print_cli
 
 game = Game.new(session.get_word)
 
 while session.run
   if game.error?
-    session.handle_error(game.word, game.error_code) 
+    session.print_error(game.word, game.error_code) 
   else
     session.print_score(game.word, game.score)
   end
   session.score_again?
   if session.run
-    session.set_screen
+    session.print_cli
     game.word = session.get_word
     game.error_code = game.validate_input(game.word)
     game.error? ? '' : game.score = game.score_word(game.word)
