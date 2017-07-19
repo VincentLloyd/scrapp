@@ -11,83 +11,92 @@ module Scrapp
       @run = true
     end
 
+    def cursor(flag, *p)
+      code = case flag
+        when 'hide' then '?25l' # Hide cursor
+        when 'show' then '?25h' # Show cursor
+        when 'move' then "#{p[0]};#{p[1]}H" # Move cursor to row & col
+      end
+      $stdout.write"\e[#{code}"
+    end
+
     def render_panel(content, flag)
       Terminal::Table::Style.defaults = { width: 75 }
       panel = Terminal::Table.new do |row|
         row.rows = content
         apply_border(row, flag)
       end
-      flag != 'prompt' ? panel.align_column(0, :center) : ''
+      panel.align_column(0, :center) if flag != 'prompt' 
+      cursor('move', 13) if flag == 'prompt'
+      cursor('move', 45) if flag == 'status' 
       puts panel
     end
 
     def apply_border(row, flag)
-      if ['intro', 'prompt'].include?(flag) 
+      if ['bonus_mid', 'intro', 'prompt'].include? flag 
         row.style = { border_top: false, border_bottom: false }
-      elsif flag == 'status'
+      elsif ['bonus_btm', 'status'].include? flag
         row.style = { border_top: false }
+      elsif ['bonus_top', 'status'].include? flag
+        row.style = { border_bottom: false }
       end
     end
 
-    def set_screen 
+    def print_cli 
       system 'clear'
       render_panel(HEADER, 'header')
       render_panel(INTRO, 'intro')
-      $stdout.write "\e[13;H"
       render_panel(PROMPT, 'prompt')
-      render_panel(BONUS_GUIDE, 'guide')
-      render_panel(TRIVIA.sample, 'status')
+      render_panel(BONUS_LETTER, 'bonus_top')
+      render_panel(BONUS_WORD, 'bonus_mid')
+      render_panel(BONUS_BINGO, 'bonus_btm')
+      render_panel(TRIVIA, 'status')
     end
 
     def get_word
-      $stdout.write "\e[?25h"
-      $stdout.write "\e[14;33H"
+      cursor 'show'
+      cursor('move', 14, 33)
       gets.chomp
     end
 
+    def print_error(word, error_code)
+      cursor('move', 14, 33)
+      puts "\e[1m\e[31m#{word}\e[0m"
+      cursor('move', 15, 33)
+      puts "\e[1m\e[31mINVALID INPUT!\e[0m"
+      render_panel(ERROR[error_code - 1], 'status')
+      cursor 'hide'
+      STDIN.getch
+    end
+    
     def print_score(word, score)
-      $stdout.write "\e[14;33H"
+      cursor('move', 14, 33)
       puts "\e[1m\e[32m#{word}\e[0m"
-      $stdout.write "\e[15;33H"
+      cursor('move', 15, 33)
       puts "\e[1m\e[32m#{score}\e[0m"
     end
 
     def score_again?
-      $stdout.write "\e[?25l"
-      $stdout.write "\e[40;H"
+      cursor 'hide'
       render_panel(SCORE_AGAIN, 'status')
-      $stdout.write "\e[43;43H"
-      continue?(STDIN.getch)
-    end
-
-    def handle_error(word, error_code)
-      $stdout.write "\e[14;33H"
-      puts "\e[1m\e[31m#{word}\e[0m"
-      $stdout.write "\e[15;33H"
-      puts "\e[1m\e[31mINVALID INPUT!\e[0m"
-      $stdout.write "\e[40;H"
-      render_panel(ERROR[error_code - 1], 'status')
-      $stdout.write "\e[?25l"
-      STDIN.getch
-      $stdout.write "\e[?25h"
+      continue? STDIN.getch
     end
 
     def continue?(key) 
-      if ['y', 'Y'].include?(key)
+      if ['y', 'Y'].include? key
         return
-      elsif ['n', 'N'].include?(key)
+      elsif ['n', 'N'].include? key
         @run = false
       else
-        continue?(STDIN.getch)
+        continue? STDIN.getch
       end 
     end
 
     def end_session
-      $stdout.write "\e[40;H"
       render_panel(FAREWELL, 'status')
-      sleep(2)
+      sleep 2
+      cursor 'show'
       system 'clear'
-      $stdout.write "\e[?25h"
     end
   end
 end
